@@ -41,3 +41,19 @@ Usage with the example file
 ```sh
 $ ruby -Ilib bot_example.rb
 ```
+
+
+Example conversation
+--------------------
+
+    <quelquun> lu
+    <Meuh> stucru
+    <quelquun> lol
+    <Meuh> mdr
+    <quelquun> t'es nouvelle Meuh?
+    <Meuh> euh ouais
+    <quelquun> cool
+    <quelquun> où est-ce que t'habite ?
+    <Meuh> dtc
+    <quelquun> …
+    <quelquun> je déteste les bots.
