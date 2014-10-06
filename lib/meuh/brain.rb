@@ -21,7 +21,7 @@ module Meuh
     #     bot.message(nickname: "sunny", message: "Hi!", nicknames: ["sunny", "NaPs"]) do |response|
     #       puts response
     #     end
-    def message(nickname:, message:, nicknames:)
+    def message(nickname: nil, message: nil, nicknames: nil)
       answers = case message
       when /^!/
         return
