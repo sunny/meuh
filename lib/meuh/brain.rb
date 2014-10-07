@@ -25,6 +25,8 @@ module Meuh
       answers = case message
       when /^!/
         return
+      when /^où.*\?$/
+        yield "dtc"
       when /#{@botname}.*\?$/
         rand_nick = (nicknames - [botname]).sample
         yield ['ouais', 'euh ouais', 'vi', 'affirmatif', 'sans doute',
@@ -41,8 +43,6 @@ module Meuh
         yield "deux !!"
       when /^quoi ?\?$/
         yield "feur !"
-      when /^où.*\?$/
-        yield "dtc"
       when /^(lol|mdr|rofl|ptdr) ?!*$/i
         yield ['lol','mdr','rofl','ptdr'].sample
       else

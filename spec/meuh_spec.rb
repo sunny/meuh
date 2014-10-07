@@ -73,6 +73,7 @@ describe Meuh::Brain do
   it 'responds to "où"' do
     expect(msg("où est ma tête ?")).to eq("dtc")
     expect(msg("où est la tienne ?")).to eq("dtc")
+    expect(msg("où la tête de M3uh ?")).to eq("dtc")
     expect(msg("mais où donc ?")).not_to eq("dtc")
     expect(msg("où pas")).not_to eq("dtc")
   end
