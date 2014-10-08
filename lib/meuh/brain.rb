@@ -43,6 +43,9 @@ module Meuh
         yield "deux !!"
       when /^quoi ?\?$/
         yield "feur !"
+      when /^qui\b/
+        rand_nick = (nicknames - [botname]).sample
+        yield "C’est #{rand_nick} !"
       when /^(lol|mdr|rofl|ptdr) ?!*$/i
         yield ['lol','mdr','rofl','ptdr'].sample
       else

@@ -78,6 +78,12 @@ describe Meuh::Brain do
     expect(msg("où pas")).not_to eq("dtc")
   end
 
+  it 'responds to "qui"' do
+    expect(msg("qui a volé l’orange ?")).to be_one_of((nicknames - []).map {|nick| "C’est #{nick} !"})
+    expect(msg("t’es qui ?")).not_to be_one_of((nicknames - [nickname]).map {|nick| "C’est #{nick} !"})
+    expect(msg("quittons cet endroit infâme")).not_to be_one_of((nicknames - [nickname]).map {|nick| "C’est #{nick} !"})
+  end
+
   it 'responds to lolz' do
     expect(msg("lOl")).to match(/^(lol|mdr|rofl|ptdr)$/)
     expect(msg("MDR")).to match(/^(lol|mdr|rofl|ptdr)$/)
