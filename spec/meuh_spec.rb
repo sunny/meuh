@@ -49,6 +49,7 @@ describe Meuh::Brain do
     30.times do
       expect(msg("c'est la faute à M3uh")).to be_one_of(possible_answers)
     end
+    expect(msg("M3uhrtrier")).not_to be_one_of(possible_answers)
   end
 
   it 'responds to "lu"' do
@@ -76,6 +77,12 @@ describe Meuh::Brain do
     expect(msg("où la tête de M3uh ?")).to eq("dtc")
     expect(msg("mais où donc ?")).not_to eq("dtc")
     expect(msg("où pas")).not_to eq("dtc")
+  end
+
+  it 'responds to "qui"' do
+    expect(msg("qui a volé l’orange ?")).to be_one_of((nicknames - []).map {|nick| "C’est #{nick} !"})
+    expect(msg("t’es qui ?")).not_to be_one_of((nicknames - [nickname]).map {|nick| "C’est #{nick} !"})
+    expect(msg("quittons cet endroit infâme")).not_to be_one_of((nicknames - [nickname]).map {|nick| "C’est #{nick} !"})
   end
 
   it 'responds to lolz' do
