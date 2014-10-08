@@ -49,6 +49,7 @@ describe Meuh::Brain do
     30.times do
       expect(msg("c'est la faute à M3uh")).to be_one_of(possible_answers)
     end
+    expect(msg("M3uhrtrier")).not_to be_one_of(possible_answers)
   end
 
   it 'responds to "lu"' do

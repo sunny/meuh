@@ -27,13 +27,13 @@ module Meuh
         return
       when /^où.*\?$/
         yield "dtc"
-      when /#{@botname}.*\?$/
+      when /\b#{@botname}\b.*\?$/
         rand_nick = (nicknames - [botname]).sample
         yield ['ouais', 'euh ouais', 'vi', 'affirmatif', 'sans doute',
           "c'est possible", "j'en sais rien moi D:", 'arf, non', 'non', 'nan',
           'euh nan', 'negatif', 'euhh peut-être',
           "demande à #{rand_nick}"].sample
-      when /#{@botname}/
+      when /\b#{@botname}\b/
         yield ['3:-0', '', 'oui ?', '...', 'lol', 'mdr', ":')",
           'arf', 'shhh', ':)', '3:)', 'tg :k', "moi aussi je t'aime",
           "oui oui #{nickname}"].sample
