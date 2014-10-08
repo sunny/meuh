@@ -25,29 +25,38 @@ module Meuh
       answers = case message
       when /^!/
         return
-      when /^où.*\?$/i
+
+      when /^où\b.*\?$/i
         yield "dtc"
+
+      when /^qui\b.*\?$/i
+        rand_nick = (nicknames - [botname]).sample
+        yield ["C’est #{rand_nick} !", "c'est #{rand_nick}"].sample
+
       when /\b#{@botname}\b.*\?$/
         rand_nick = (nicknames - [botname]).sample
         yield ['ouais', 'euh ouais', 'vi', 'affirmatif', 'sans doute',
           "c'est possible", "j'en sais rien moi D:", 'arf, non', 'non', 'nan',
           'euh nan', 'negatif', 'euhh peut-être',
           "demande à #{rand_nick}"].sample
+
       when /\b#{@botname}\b/
-        yield ['3:-0', '', 'oui ?', '...', 'lol', 'mdr', ":')",
+        yield ['3:-0', 'oui ?', '...', 'lol', 'mdr', ":')",
           'arf', 'shhh', ':)', '3:)', 'tg :k', "moi aussi je t'aime",
-          "oui oui #{nickname}"].sample
+          "oui oui #{nickname}"].sample if rand(0..10) > 0
+
       when /^lu$/i
         yield ["tin", "stucru"].sample
+
       when /^hein ?\?$/i
         yield "deux !!"
+
       when /^quoi ?\?$/i
         yield "feur !"
-      when /^qui\b/i
-        rand_nick = (nicknames - [botname]).sample
-        yield "C’est #{rand_nick} !"
+
       when /^(lol|mdr|rofl|ptdr) ?!*$/i
         yield ['lol','mdr','rofl','ptdr'].sample
+
       else
         if message == @previous_message and @previous_nickname != nickname
           @previous_message = nil
