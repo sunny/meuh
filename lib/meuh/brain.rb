@@ -46,16 +46,16 @@ module Meuh
           "oui oui #{nickname}"].sample if rand(0..10) > 0
 
       when /^lu$/i
-        yield ["tin", "stucru"].sample
+        yield ["tin", "stucru", "mière"].sample
 
       when /^hein ?\?$/i
-        yield "deux !!"
+        yield ["deux", "deux !!"].sample
 
       when /^quoi ?\?$/i
         yield "feur !"
 
       when /^(lol|mdr|rofl|ptdr) ?!*$/i
-        yield ['lol','mdr','rofl','ptdr'].sample
+        yield ['lol','mdr','rofl','ptdr','haha'].sample
 
       else
         if message == @previous_message and @previous_nickname != nickname

@@ -72,8 +72,8 @@ describe Meuh::Brain do
 
   it 'responds to "lu"' do
     5.times {
-      expect(msg("Lu")).to be_one_of(["tin", "stucru"])
-      expect(msg("lut")).not_to be_one_of(["tin", "stucru"])
+      expect(msg("lu")).to be_one_of(["tin", "stucru", "mière"])
+      expect(msg("lut")).not_to be_one_of(["tin", "stucru", "mière"])
     }
   end
 
@@ -84,16 +84,16 @@ describe Meuh::Brain do
   end
 
   it 'responds to "hein?"' do
-    expect(msg("hein?")).to eq("deux !!")
-    expect(msg("Hein ?")).to eq("deux !!")
-    expect(msg("heing")).not_to eq("deux !!")
+    expect(msg("hein?")).to be_one_of(["deux", "deux !!"])
+    expect(msg("Hein ?")).to be_one_of(["deux", "deux !!"])
+    expect(msg("heing")).not_to be_one_of(["deux", "deux !!"])
   end
 
   it 'responds to lolz' do
-    expect(msg("lOl")).to match(/^(lol|mdr|rofl|ptdr)$/)
-    expect(msg("MDR!")).to match(/^(lol|mdr|rofl|ptdr)$/)
-    expect(msg("ptdr !!")).to match(/^(lol|mdr|rofl|ptdr)$/)
-    expect(msg("mais MDR !")).not_to match(/^(lol|mdr|rofl|ptdr)$/)
+    expect(msg("lOl")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+    expect(msg("MDR!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+    expect(msg("ptdr !!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+    expect(msg("mais MDR !")).not_to match(/^(lol|mdr|rofl|ptdr|haha)$/)
   end
 
   it 'repeats when people change' do
