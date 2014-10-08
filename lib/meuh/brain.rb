@@ -25,7 +25,7 @@ module Meuh
       answers = case message
       when /^!/
         return
-      when /^où.*\?$/
+      when /^où.*\?$/i
         yield "dtc"
       when /\b#{@botname}\b.*\?$/
         rand_nick = (nicknames - [botname]).sample
@@ -37,13 +37,13 @@ module Meuh
         yield ['3:-0', '', 'oui ?', '...', 'lol', 'mdr', ":')",
           'arf', 'shhh', ':)', '3:)', 'tg :k', "moi aussi je t'aime",
           "oui oui #{nickname}"].sample
-      when /^lu$/
+      when /^lu$/i
         yield ["tin", "stucru"].sample
-      when /^hein ?\?$/
+      when /^hein ?\?$/i
         yield "deux !!"
-      when /^quoi ?\?$/
+      when /^quoi ?\?$/i
         yield "feur !"
-      when /^qui\b/
+      when /^qui\b/i
         rand_nick = (nicknames - [botname]).sample
         yield "C’est #{rand_nick} !"
       when /^(lol|mdr|rofl|ptdr) ?!*$/i
