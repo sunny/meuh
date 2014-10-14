@@ -17,7 +17,9 @@ Example conversation
     <quelquun> où est-ce que t'habite ?
     <Meuh> dtc
     <quelquun> …
-    <quelquun> je déteste les bots.
+    <quelquun> je déteste les gens.
+    <quelquun> s/gens/bots/
+    <Meuh> je déteste les bots.
 
 
 Usage

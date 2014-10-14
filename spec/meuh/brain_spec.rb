@@ -29,7 +29,7 @@ describe Meuh::Brain do
   end
 
   it 'never responds to !commands' do
-    300.times { expect(msg("!foo")).to eq(nil) }
+    200.times { expect(msg("!foo")).to eq(nil) }
   end
 
   it 'responds to "où"' do
@@ -114,6 +114,51 @@ describe Meuh::Brain do
     answer = nil
     300.times.find { answer = msg("hello") }
     expect(answer).to be_one_of([":)", ":p", "3:)", "lol"])
+  end
+
+
+  it 'does not replace s/// if there is no previous message' do
+    expect(msg("s/A//")).to eq(nil)
+  end
+
+  context "with a s/// message and a previous message" do
+    before { msg("Je t'aime") }
+
+    it 'does not respond if the text does not match' do
+      expect(msg("s/foo//")).to eq(nil)
+    end
+
+    it 'removes some of the previous text' do
+      expect(msg("s/me//")).to eq("Je t'ai")
+    end
+
+    it 'replaces some of the previous text' do
+      expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
+    end
+
+    it 'replaces previous text with regular expression' do
+      expect(msg('s/me$/meuh/')).to eq("Je t'aimeuh")
+    end
+
+    it 'replaces previous text with complex regular expression' do
+      msg("Je t/aime")
+      expect(msg('s/[^a-z]|m|\//-/')).to eq("-e-t-ai-e")
+    end
+
+    it 'responds nothing for impossible regular expressions' do
+      # Raises a RegexpError "too short escape sequence"
+      expect(msg('s/\/-/')).to eq(nil)
+    end
+
+    it 'accepts a case insensitive flag' do
+      expect(msg("s/ME/MEUH/")).to eq(nil)
+      expect(msg("s/ME/MEUH/i")).to eq("Je t'aiMEUH")
+    end
+
+    it 'remembers previous s///' do
+      expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
+      expect(msg("s/meuh/me!!/")).to eq("Je t'aime!!")
+    end
   end
 
   # Simplify sending a message with the given message

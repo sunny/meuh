@@ -26,6 +26,18 @@ module Meuh
       when /^!/
         return
 
+      when /^s\/(.+)\/(.*)\/(i)?$/
+        begin
+          replacement = @previous_message.to_s.gsub(Regexp.new($1, $3), $2)
+        rescue RegexpError
+        end
+
+        if @previous_message && replacement && replacement != @previous_message
+          @previous_message = replacement
+          @previous_nickname = nickname
+          yield replacement
+        end
+
       when /^où\b.*\?$/i
         yield "dtc"
 
