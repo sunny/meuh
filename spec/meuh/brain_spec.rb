@@ -136,13 +136,30 @@ describe Meuh::Brain do
       expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
     end
 
-    it 'replaces previous text with regular expression' do
+    it 'replaces previous text with a regexp' do
       expect(msg('s/me$/meuh/')).to eq("Je t'aimeuh")
     end
 
-    it 'replaces previous text with complex regular expression' do
+    it 'does not respond if no replacement is made' do
+      expect(msg("s/aim./aime/")).to eq(nil)
+    end
+
+    it 'replaces previous text with a complex regexp' do
       msg("Je t/aime")
-      expect(msg('s/[^a-z]|m|\//-/')).to eq("-e-t-ai-e")
+      expect(msg('s/[^a-z]|(m)|\//-/')).to eq("-e-t-ai-e")
+    end
+
+    it 'replaces previous text with a regexp with groups' do
+      expect(msg('s/ai(me)/\0\1/')).to eq("Je t'aimeme")
+    end
+
+    it 'responds with an all-including plus regexp' do
+      expect(msg('s/.+/foo/')).to eq("foo")
+    end
+
+    it 'replaces the whole text with s/.*/bar/' do
+      pending 'fails with "barbar" for unknown reason :('
+      expect(msg('s/.*/bar/')).to eq("bar") # fails with "barbar"
     end
 
     it 'responds nothing for impossible regular expressions' do
@@ -150,14 +167,22 @@ describe Meuh::Brain do
       expect(msg('s/\/-/')).to eq(nil)
     end
 
-    it 'accepts a case insensitive flag' do
+    it 'is case sensitive' do
       expect(msg("s/ME/MEUH/")).to eq(nil)
+    end
+
+    it 'accepts a case insensitive flag' do
       expect(msg("s/ME/MEUH/i")).to eq("Je t'aiMEUH")
     end
 
     it 'remembers previous s///' do
       expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
       expect(msg("s/meuh/me!!/")).to eq("Je t'aime!!")
+    end
+
+    it 'remembers other commands' do
+      expect(msg("où est ma tête ?")).to eq("dtc")
+      expect(msg("s/dtc/dans ton cul/")).to eq("dans ton cul")
     end
   end
 
