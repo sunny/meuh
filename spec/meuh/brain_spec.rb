@@ -34,6 +34,7 @@ describe Meuh::Brain do
 
   it 'responds to "ping"' do
     expect(msg("ping")).to eq("pong")
+    expect(msg("pingu")).not_to eq("pong")
   end
 
   it 'responds to "où"' do

@@ -39,7 +39,7 @@ module Meuh
         rescue RegexpError
         end
 
-      when /^ping/i
+      when /^ping$/i
         yield say "pong"
 
       when /^où\b.*\?$/i
