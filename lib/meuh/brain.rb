@@ -39,6 +39,8 @@ module Meuh
         rescue RegexpError
         end
 
+      when /^ping/i
+        yield say "pong"
 
       when /^où\b.*\?$/i
         yield say "dtc"

@@ -32,6 +32,10 @@ describe Meuh::Brain do
     200.times { expect(msg("!foo")).to eq(nil) }
   end
 
+  it 'responds to "ping"' do
+    expect(msg("ping")).to eq("pong")
+  end
+
   it 'responds to "où"' do
     expect(msg("où est ma tête ?")).to eq("dtc")
     expect(msg("OÙ est la tienne?")).to eq("dtc")
