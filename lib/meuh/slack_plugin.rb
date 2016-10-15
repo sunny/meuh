@@ -20,7 +20,8 @@ module Meuh
     end
 
     def self.message(client, data, match)
-      nickname = client.users[data.user].name
+      user = client.users[data.user]
+      nickname = user && user.name
 
       text = match[0]
       text = text.gsub("<@#{client.self.id}>", client.name)
