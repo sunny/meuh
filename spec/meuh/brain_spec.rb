@@ -57,6 +57,14 @@ describe Meuh::Brain do
     expect(msg("qui peut le + peut le -")).not_to match(expected)
   end
 
+  it 'answers A or B questions' do
+    answers = ["vert", "bleu", "les deux"]
+    5.times do
+      expect(msg("M3uh vert ou bleu ?"))
+        .to be_one_of(["vert", "bleu", "les deux"])
+    end
+  end
+
   it 'reponds to questions addressed to its name' do
     answers = ['ouais', 'euh ouais', 'vi', 'affirmatif', 'sans doute',
                "c'est possible", "j'en sais rien moi D:", 'arf, non',
