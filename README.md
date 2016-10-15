@@ -25,33 +25,9 @@ Example conversation
 Usage
 -----
 
-You can use the `Meuh::CinchPlugin` to create a bot using Cinch, like the
-`bot_example.rb` file:
+You can use the robot with `Cinch`. Checkout out `examples/cinch_bot.rb` for
+an example of how to start it.
 
-```rb
-require "meuh/cinch_plugin"
-
-bot = Cinch::Bot.new do
-  configure do |c|
-    c.nick = "Meuh"
-    c.server = "irc.freenode.org"
-    c.channels = ["##cinch-bots"]
-    c.plugins.plugins = [Meuh::CinchPlugin]
-  end
-end
-
-bot.start
-```
-
-To try it out with this example file, download Meuh and:
-
-```sh
-$ ruby -Ilib bot_example.rb
-```
-
-
-Usage outside of Cinch
------------------------
 
 If you want to integrate Meuh's brain in another messaging system, you can:
 

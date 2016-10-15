@@ -1,3 +1,10 @@
+# To try out this example file:
+#
+# ```sh
+# $ gem install cinch
+# $ ruby -Ilib examples/cinch_bot.rb
+# ```
+
 require "meuh/cinch_plugin"
 
 bot = Cinch::Bot.new do
