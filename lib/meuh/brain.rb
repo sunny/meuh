@@ -31,8 +31,8 @@ module Meuh
         previous_nickname: previous_nickname
       )
 
-      # Do not record this as a previous message
-      return if msg.text =~ /^!/
+      # Do not act or remember "!" commands
+      return if msg.text =~ /^(#{Regexp.escape(msg.botname)} )?(!|\/)/
 
       plugins.each do |plugin|
         answer = plugin.answer(msg)

@@ -34,6 +34,18 @@ describe Meuh::Brain do
     200.times { expect(msg(%w(!foo !bar? !#{botname}).sample)).to eq(nil) }
   end
 
+  it 'never responds to "botname !command"' do
+    200.times { expect(msg("#{botname} !test")).to eq(nil) }
+  end
+
+  it 'never responds to /commands' do
+    200.times { expect(msg(%w(/foo /bar? /#{botname}).sample)).to eq(nil) }
+  end
+
+  it 'never responds to "botname /command"' do
+    200.times { expect(msg("#{botname} /test")).to eq(nil) }
+  end
+
   it 'responds to "ping"' do
     expect(msg("ping")).to eq("pong")
     expect(msg("pingu")).not_to eq("pong")
