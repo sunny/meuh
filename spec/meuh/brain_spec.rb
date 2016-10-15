@@ -94,11 +94,12 @@ describe Meuh::Brain do
 
   it 'reponds to its name' do
     answers = ['3:-0', 'oui ?', '...', 'lol', 'mdr', ":')",
-               'arf', 'shhh', ':)', '3:)', 'tg :k',
+               'arf', 'shhh', ':)', '3:)', 'tg :k', '<3',
                "moi aussi je t'aime", "oui oui sunny"]
     30.times do
       expect(msg("c'est la faute à M3uh")).to be_one_of(answers + [nil])
-      expect(msg("c'est la faute à @M3uh")).to be_one_of(answers + [nil])
+      expect(msg("c'est toi que j'aime M3uh !")).to be_one_of(answers + [nil])
+      expect(msg("ma pauvre @M3uh, haha")).to be_one_of(answers + [nil])
     end
     expect(msg("M3uhrtrier")).not_to be_one_of(answers - random_answers)
     expect(msg("@M3uhrtrier")).not_to be_one_of(answers)
