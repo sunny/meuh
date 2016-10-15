@@ -194,9 +194,10 @@ describe Meuh::Brain do
   # Simplify sending a message with the given message
   def msg(message, options = {})
     defaults = { nickname: nickname, message: message, nicknames: nicknames }
+    bot_answer = nil
     brain.message(defaults.merge(options)) do |answer|
-      return answer
+      bot_answer = answer
     end
-    nil
+    bot_answer
   end
 end
