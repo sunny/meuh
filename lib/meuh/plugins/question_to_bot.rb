@@ -2,7 +2,7 @@ module Meuh
   module Plugins
     class QuestionToBot
       def answer(msg)
-        if msg.text =~ /\b#{msg.botname}\b\s*(.*?)\s+ou\s+(.*?)\s*\?$/i
+        if msg.text =~ /\b#{msg.botname}[:,\s]+(.*?)\s+ou\s+(.*?)\s*\?$/i
           [$1, $2, "les deux"].sample
         elsif msg.text =~ /\b#{msg.botname}\b.*\?$/
           rand_nick = (msg.nicknames - [msg.botname]).sample

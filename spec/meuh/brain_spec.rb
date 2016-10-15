@@ -65,6 +65,22 @@ describe Meuh::Brain do
     end
   end
 
+  it 'answers A or B questions with seperators' do
+    answers = ["vert", "bleu", "les deux"]
+    5.times do
+      expect(msg("M3uh: vert ou bleu ?"))
+        .to be_one_of(["vert", "bleu", "les deux"])
+    end
+  end
+
+  it 'answers A or B questions at the end of a sentence' do
+    answers = ["vert", "bleu", "les deux"]
+    5.times do
+      expect(msg("d'après toi @M3uh, vert ou bleu ?"))
+        .to be_one_of(["vert", "bleu", "les deux"])
+    end
+  end
+
   it 'reponds to questions addressed to its name' do
     answers = ['ouais', 'euh ouais', 'vi', 'affirmatif', 'sans doute',
                "c'est possible", "j'en sais rien moi D:", 'arf, non',
@@ -107,13 +123,6 @@ describe Meuh::Brain do
     expect(msg("heing")).not_to be_one_of(["deux", "deux !!"])
   end
 
-  it 'responds to lolz' do
-    expect(msg("lOl")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
-    expect(msg("MDR!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
-    expect(msg("ptdr !!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
-    expect(msg("mais MDR !")).not_to match(/^(lol|mdr|rofl|ptdr|haha)$/)
-  end
-
   it "talks randomly" do
     answer = nil
     300.times.find { answer = msg("hello") }
@@ -123,6 +132,13 @@ describe Meuh::Brain do
   context 'without the random chat plugin' do
     before do
       allow_any_instance_of(Meuh::Plugins::RandomChat).to receive(:answer)
+    end
+
+    it 'responds to lolz' do
+      expect(msg("lOl")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+      expect(msg("MDR!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+      expect(msg("ptdr !!")).to match(/^(lol|mdr|rofl|ptdr|haha)$/)
+      expect(msg("mais MDR !")).not_to match(/^(lol|mdr|rofl|ptdr|haha)$/)
     end
 
     it 'repeats when people change' do
