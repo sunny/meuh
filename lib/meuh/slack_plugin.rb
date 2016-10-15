@@ -33,11 +33,11 @@ module Meuh
       members = channel && channel.members || []
       nicknames = members.map { |member| client.users[member].name }
 
-      {
+      p({
         nickname: nickname,
         message: text,
         nicknames: nicknames
-      }
+      })
     end
   end
 end
