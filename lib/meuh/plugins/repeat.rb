@@ -6,8 +6,6 @@ module Meuh
            and msg.previous_nickname != msg.nickname \
            and msg.previous_nickname != msg.botname
           msg.text
-        elsif rand(0..50).zero?
-          [":)", ":p", "3:)", "lol"].sample
         end
       end
     end

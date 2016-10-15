@@ -7,6 +7,7 @@ require "meuh/plugins/lu"
 require "meuh/plugins/mention_bot"
 require "meuh/plugins/ping"
 require "meuh/plugins/question_to_bot"
+require "meuh/plugins/random_chat"
 require "meuh/plugins/repeat"
 require "meuh/plugins/replace"
 require "meuh/plugins/what"
@@ -29,5 +30,6 @@ module Meuh
     Plugins::MentionBot,
 
     Plugins::Repeat,
+    Plugins::RandomChat,
   ]
 end

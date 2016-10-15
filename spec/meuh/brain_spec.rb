@@ -19,6 +19,8 @@ describe Meuh::Brain do
   let(:nickname) { "sunny" }
   let(:nicknames) { ["sunny", "NaPs", botname] }
 
+  let(:random_answers) { [":)", ":p", "lol"] }
+
   it 'has a botname' do
     expect(brain.botname).to eq("M3uh")
   end
@@ -74,7 +76,7 @@ describe Meuh::Brain do
       expect(msg("c'est la faute à M3uh")).to be_one_of(answers + [nil])
       expect(msg("c'est la faute à @M3uh")).to be_one_of(answers + [nil])
     end
-    expect(msg("M3uhrtrier")).not_to be_one_of(answers)
+    expect(msg("M3uhrtrier")).not_to be_one_of(answers - random_answers)
     expect(msg("@M3uhrtrier")).not_to be_one_of(answers)
   end
 
@@ -104,93 +106,97 @@ describe Meuh::Brain do
     expect(msg("mais MDR !")).not_to match(/^(lol|mdr|rofl|ptdr|haha)$/)
   end
 
-  it 'repeats when people change' do
-    expect(msg("foo", nickname: "Bob")).not_to eq("foo")
-    expect(msg("foo", nickname: "joe")).to eq("foo")
-    expect(msg("foo", nickname: "Ace")).not_to eq("foo")
-    expect(msg("foo", nickname: "joe")).to eq("foo")
-  end
-
-  it 'does not repeat when someone else repeats' do
-    expect(msg("foo", nickname: "joe")).not_to eq("foo")
-    expect(msg("foo", nickname: "joe")).not_to eq("foo")
-    expect(msg("foo", nickname: "joe")).not_to eq("foo")
-    expect(msg("foo", nickname: "Bob")).to eq("foo")
-  end
-
   it "talks randomly" do
     answer = nil
     300.times.find { answer = msg("hello") }
-    expect(answer).to be_one_of([":)", ":p", "3:)", "lol"])
+    expect(answer).to be_one_of(random_answers)
   end
 
-
-  it 'does not replace s/// if there is no previous message' do
-    expect(msg("s/A//")).to eq(nil)
-  end
-
-  context "with a s/// message and a previous message" do
-    before { msg("Je t'aime") }
-
-    it 'does not respond if the text does not match' do
-      expect(msg("s/foo//")).to eq(nil)
+  context 'without the random chat plugin' do
+    before do
+      allow_any_instance_of(Meuh::Plugins::RandomChat).to receive(:answer)
     end
 
-    it 'removes some of the previous text' do
-      expect(msg("s/me//")).to eq("Je t'ai")
+    it 'repeats when people change' do
+      expect(msg("foo", nickname: "Bob")).not_to eq("foo")
+      expect(msg("foo", nickname: "joe")).to eq("foo")
+      expect(msg("foo", nickname: "Ace")).not_to eq("foo")
+      expect(msg("foo", nickname: "joe")).to eq("foo")
     end
 
-    it 'replaces some of the previous text' do
-      expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
+    it 'does not repeat when someone else repeats' do
+      expect(msg("foo", nickname: "joe")).not_to eq("foo")
+      expect(msg("foo", nickname: "joe")).not_to eq("foo")
+      expect(msg("foo", nickname: "joe")).not_to eq("foo")
+      expect(msg("foo", nickname: "Bob")).to eq("foo")
     end
 
-    it 'replaces previous text with a regexp' do
-      expect(msg('s/me$/meuh/')).to eq("Je t'aimeuh")
+    it 'does not replace s/// if there is no previous message' do
+      expect(msg("s/A//")).to eq(nil)
     end
 
-    it 'does not respond if no replacement is made' do
-      expect(msg("s/aim./aime/")).to eq(nil)
-    end
+    context "with a s/// message and a previous message" do
+      before { msg("Je t'aime") }
 
-    it 'replaces previous text with a complex regexp' do
-      msg("Je t/aime")
-      expect(msg('s/[^a-z]|(m)|\//-/')).to eq("-e-t-ai-e")
-    end
+      it 'does not respond if the text does not match' do
+        expect(msg("s/foo//")).to eq(nil)
+      end
 
-    it 'replaces previous text with a regexp with groups' do
-      expect(msg('s/ai(me)/\0\1/')).to eq("Je t'aimeme")
-    end
+      it 'removes some of the previous text' do
+        expect(msg("s/me//")).to eq("Je t'ai")
+      end
 
-    it 'responds with an all-including plus regexp' do
-      expect(msg('s/.+/foo/')).to eq("foo")
-    end
+      it 'replaces some of the previous text' do
+        expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
+      end
 
-    it 'replaces the whole text with s/.*/bar/' do
-      pending 'fails with "barbar" for unknown reason :('
-      expect(msg('s/.*/bar/')).to eq("bar") # fails with "barbar"
-    end
+      it 'replaces previous text with a regexp' do
+        expect(msg('s/me$/meuh/')).to eq("Je t'aimeuh")
+      end
 
-    it 'responds nothing for impossible regular expressions' do
-      # Raises a RegexpError "too short escape sequence"
-      expect(msg('s/\/-/')).to eq(nil)
-    end
+      it 'does not respond if no replacement is made' do
+        expect(msg("s/aim./aime/")).to eq(nil)
+      end
 
-    it 'is case sensitive' do
-      expect(msg("s/ME/MEUH/")).to eq(nil)
-    end
+      it 'replaces previous text with a complex regexp' do
+        msg("Je t/aime")
+        expect(msg('s/[^a-z]|(m)|\//-/')).to eq("-e-t-ai-e")
+      end
 
-    it 'accepts a case insensitive flag' do
-      expect(msg("s/ME/MEUH/i")).to eq("Je t'aiMEUH")
-    end
+      it 'replaces previous text with a regexp with groups' do
+        expect(msg('s/ai(me)/\0\1/')).to eq("Je t'aimeme")
+      end
 
-    it 'remembers previous s///' do
-      expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
-      expect(msg("s/meuh/me!!/")).to eq("Je t'aime!!")
-    end
+      it 'responds with an all-including plus regexp' do
+        expect(msg('s/.+/foo/')).to eq("foo")
+      end
 
-    it 'remembers other commands' do
-      expect(msg("où est ma tête ?")).to eq("dtc")
-      expect(msg("s/dtc/dans ton cul/")).to eq("dans ton cul")
+      it 'replaces the whole text with s/^.*$/bar/' do
+        expect(msg('s/^.*$/bar/')).to eq("bar")
+      end
+
+      it 'responds nothing for impossible regular expressions' do
+        # Raises a RegexpError "too short escape sequence"
+        expect(msg('s/\/-/')).to eq(nil)
+      end
+
+      it 'is case sensitive' do
+        expect(msg("s/ME/MEUH/")).to eq(nil)
+      end
+
+      it 'accepts a case insensitive flag' do
+        expect(msg("s/ME/MEUH/i")).to eq("Je t'aiMEUH")
+      end
+
+      it 'remembers previous s///' do
+        expect(msg("s/me/meuh/")).to eq("Je t'aimeuh")
+        expect(msg("s/meuh/me!!/")).to eq("Je t'aime!!")
+      end
+
+      it 'remembers other commands' do
+        expect(msg("où est ma tête ?")).to eq("dtc")
+        expect(msg("s/dtc/dans ton cul/")).to eq("dans ton cul")
+      end
     end
   end
 
