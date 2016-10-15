@@ -1,8 +1,8 @@
 READMEUH
 ========
 
-Meuh is a very low artificial intelligence for a very stupid IRC channel bot
-companion.
+Meuh is a very low artificial intelligence for a very stupid bot companion for
+Slack or IRC.
 
 Example conversation
 --------------------
@@ -25,9 +25,15 @@ Example conversation
 Usage
 -----
 
-You can use the robot with `Cinch`. Checkout out `examples/cinch_bot.rb` for
-an example of how to start it.
+## Slack
 
+Check out `examples/slack_bot.rb`.
+
+## IRC
+
+Check out `examples/cinch_bot.rb`.
+
+## Elsewhere
 
 If you want to integrate Meuh's brain in another messaging system, you can:
 
