@@ -10,6 +10,9 @@ module Meuh
           message = SlackPlugin.message(client, data, match)
           @@meuh.botname = client.name
           @@meuh.message(message) do |response|
+            sleep rand(100)/100.0
+            client.typing(channel: data.channel)
+            sleep rand(100)/100.0
             client.say(channel: data.channel, text: response)
           end
         end
@@ -30,12 +33,11 @@ module Meuh
       members = channel && channel.members || []
       nicknames = members.map { |member| client.users[member].name }
 
-      puts "-" * 25
-      p(
+      {
         nickname: nickname,
         message: text,
         nicknames: nicknames
-      )
+      }
     end
   end
 end
