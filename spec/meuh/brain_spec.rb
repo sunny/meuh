@@ -29,7 +29,7 @@ describe Meuh::Brain do
   end
 
   it 'never responds to !commands' do
-    200.times { expect(msg("!foo")).to eq(nil) }
+    200.times { expect(msg(%w(!foo !bar? !#{botname}).sample)).to eq(nil) }
   end
 
   it 'responds to "ping"' do
@@ -62,6 +62,7 @@ describe Meuh::Brain do
                /^demande à (sunny|NaPs)$/]
     100.times do
       expect(msg("et M3uh ça va ?")).to be_one_of(answers)
+      expect(msg("et @M3uh ça va ?")).to be_one_of(answers)
     end
   end
 
@@ -71,8 +72,10 @@ describe Meuh::Brain do
                "moi aussi je t'aime", "oui oui sunny"]
     30.times do
       expect(msg("c'est la faute à M3uh")).to be_one_of(answers + [nil])
+      expect(msg("c'est la faute à @M3uh")).to be_one_of(answers + [nil])
     end
     expect(msg("M3uhrtrier")).not_to be_one_of(answers)
+    expect(msg("@M3uhrtrier")).not_to be_one_of(answers)
   end
 
   it 'responds to "lu"' do
