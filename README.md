@@ -35,7 +35,15 @@ Check out `examples/cinch_bot.rb`.
 
 ## Elsewhere
 
-If you want to integrate Meuh's brain in another messaging system, you can:
+If you want to integrate Meuh's brain in another messaging system,
+you can add it to your Gemfile:
+
+```rb
+# A stupid Slack and IRC Bot AI
+gem "meuh"
+```
+
+And use the Brain like this:
 
 ```rb
 require "meuh"
